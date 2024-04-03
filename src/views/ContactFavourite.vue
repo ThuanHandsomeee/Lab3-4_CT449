@@ -5,12 +5,9 @@
         </div>
         <div class="mt-3 col-md-6">
             <h4>
-                Danh bạ
-                <i class="fas fa-address-book"></i>
+                Danh bạ yêu thích
+                <i class="fas fa-heart"></i>
             </h4>
-            <button class="btn btn-sm btn-pink" @click="goToContactFavorite">
-                <i class="fas fa-heart"></i> Yêu thích
-            </button>
             <ContactList v-if="filteredContactsCount > 0" :contacts="filteredContacts"
                 v-model:activeIndex="activeIndex" />
             <p v-else>Không có liên hệ nào.</p>
@@ -25,8 +22,6 @@
                 <button class="btn btn-sm btn-danger" @click="removeAllContacts">
                     <i class="fas fa-trash"></i> Xóa tất cả
                 </button>
-
-
             </div>
 
         </div>
@@ -105,7 +100,7 @@ export default {
     methods: {
         async retrieveContacts() {
             try {
-                this.contacts = await ContactService.getAll();
+                this.contacts = await ContactService.getAllFavorite();
             } catch (error) {
                 console.log(error);
             }
@@ -127,9 +122,6 @@ export default {
         goToAddContact() {
             this.$router.push({ name: "contact.add" });
         },
-        goToContactFavorite() {
-            this.$router.push({ name: "contact.favorite" });
-        },
     },
     mounted() {
         this.refreshList();
@@ -141,17 +133,5 @@ export default {
 .page {
     text-align: left;
     max-width: 750px;
-}
-</style>
-<style scoped>
-.btn-pink {
-    color: #fff;
-    background-color: #ff69b4;
-    border-color: #ff69b4;
-    margin-bottom: 5px;
-}
-
-.btn-pink i.fas.fa-heart:before {
-    content: "\f004";
 }
 </style>
